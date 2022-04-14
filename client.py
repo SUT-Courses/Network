@@ -1,22 +1,22 @@
 import sys
+import time
 from socket import AF_INET, socket, SOCK_DGRAM, timeout
 
-from utils.logger import logger, get_timestr_mil_sec
+from utils.logger import logger, get_timestr_mil_sec, check_command
 
-if len(sys.argv) != 3:
-    logger(msg="🔥Not acceptable🔥 use 'python client.py <host> <port>")
-    sys.exit(1)    
+check_command(num_args=2, correct_command="'python client.py <port>'")    
 
-_, host, port = sys.argv
+host, port = "127.0.0.1", sys.argv[1]
 
 
 socket_client = socket(AF_INET, SOCK_DGRAM)
+logger(f"Client started on port {port}")
 socket_client.settimeout(2)
 
 for i in range(1,11):
     msg = f"Ping {i} {get_timestr_mil_sec()}"
+    time.sleep(2)  
     socket_client.sendto(msg.encode(), (host, int(port)))
-    print(msg.encode())
     logger(msg=f"Sending from client: {msg}")
     try:
         data, addr = socket_client.recvfrom(1024)
