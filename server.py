@@ -1,3 +1,6 @@
+# sajad faghfoor maghrebi
+# 97106187
+
 import random
 import sys
 import time
